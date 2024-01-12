@@ -30,9 +30,11 @@ export default defineEventHandler(async (event) => {
       },
     });
   } catch (error) {
+    console.log(error);
     throw createError({
       statusCode: 500,
       statusMessage: "Unknown prodcution error occured",
+      message: error as string,
     });
   }
   return sendRedirect(event, "/login");
