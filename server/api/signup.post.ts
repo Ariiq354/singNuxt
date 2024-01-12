@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const exist = await prismadb.user.findFirst({
     where: {
-      username,
+      username: username,
     },
   });
 
