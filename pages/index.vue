@@ -5,5 +5,5 @@
 </script>
 
 <template>
-  <div class="bg-eastern-blue-50 h-screen">hello world</div>
+  <main class="bg-eastern-blue-50 h-screen">hello world</main>
 </template>

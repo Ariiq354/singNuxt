@@ -2,16 +2,11 @@
   import { z } from "zod";
   import type { FormSubmitEvent } from "#ui/types";
 
-  const user = useUser();
-  if (user.value) {
-    await navigateTo("/dashboard"); // redirect to profile page
-  }
-
   const toast = useToast();
   const loading = ref(false);
 
   const schema = z.object({
-    username: z.string(),
+    username: z.string().min(3, "Must be at least 3 characters"),
     password: z.string().min(8, "Must be at least 8 characters"),
   });
 
@@ -24,7 +19,7 @@
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     loading.value = true;
-    await $fetch("/api/login", {
+    await $fetch("/api/signup", {
       method: "POST",
       body: {
         username: event.data.username,
@@ -35,11 +30,11 @@
       .then(async () => {
         toast.add({
           title: "Success",
-          description: "Succesfully login",
+          description: "User has been created",
           icon: "i-heroicons-check-circle",
         });
 
-        await navigateTo("/dashboard");
+        await navigateTo("/login");
       })
       .catch((err) => {
         toast.add({
@@ -68,8 +63,8 @@
           class="space-y-4"
           @submit="onSubmit"
         >
-          <div class="font-bold text-2xl">Welcome back</div>
-          <UFormGroup label="Email" name="email">
+          <div class="font-bold text-2xl">Register</div>
+          <UFormGroup label="Username" name="username">
             <UInput v-model="state.username" />
           </UFormGroup>
 
@@ -82,12 +77,12 @@
             type="submit"
             class="py-2 w-full flex justify-center"
           >
-            Submit
+            Register
           </UButton>
           <div>
-            Don't have an account yet?
-            <NuxtLink to="/register" class="text-eastern-blue-500 font-bold"
-              >Sign Up</NuxtLink
+            Already have an account?
+            <NuxtLink to="/login" class="text-eastern-blue-500 font-bold"
+              >Sign In</NuxtLink
             >
           </div>
         </UForm>

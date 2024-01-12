@@ -15,5 +15,13 @@
     "nuxt": "^3.9.0",
     "vue": "^3.4.5",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@lucia-auth/adapter-prisma": "^3.0.2",
+    "@prisma/client": "^5.8.0",
+    "lucia": "^2.7.6",
+    "next-auth": "4.22.5",
+    "prisma": "^5.8.0",
+    "zod": "^3.22.4"
   }
 }
