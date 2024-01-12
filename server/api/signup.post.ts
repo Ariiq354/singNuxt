@@ -6,12 +6,11 @@ export default defineEventHandler(async (event) => {
     password: string;
   }>(event);
 
-  const exist = await prismadb.user.findFirst({
+  const exist = await prismadb.user.findUnique({
     where: {
       username: username,
     },
   });
-
   if (exist) {
     throw createError({
       statusCode: 400,
