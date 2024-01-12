@@ -19,15 +19,22 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  await auth.createUser({
-    key: {
-      providerId: "username",
-      providerUserId: username.toLowerCase(),
-      password,
-    },
-    attributes: {
-      username,
-    },
-  });
+  try {
+    await auth.createUser({
+      key: {
+        providerId: "username",
+        providerUserId: username.toLowerCase(),
+        password,
+      },
+      attributes: {
+        username,
+      },
+    });
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Unknown prodcution error occured",
+    });
+  }
   return sendRedirect(event, "/login");
 });
