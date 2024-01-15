@@ -12,6 +12,10 @@ export default defineEventHandler(async (event) => {
     },
   });
   if (exist) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Username already exist",
+    });
     return {
       status: 400,
       statusMessage: "Username already exist",
