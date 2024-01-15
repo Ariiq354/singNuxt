@@ -23,7 +23,7 @@
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     loading.value = true;
-    const { error } = await useFetch("/api/signup", {
+    const { data } = await useFetch("/api/signup", {
       method: "POST",
       body: {
         username: event.data.username,
@@ -32,10 +32,10 @@
       redirect: "manual",
     });
 
-    if (error.value) {
+    if (data.value?.status === 400 || data.value?.status === 500) {
       toast.add({
         title: "Error",
-        description: error.value.statusMessage,
+        description: data.value.statusMessage,
         icon: "i-heroicons-x-circle",
         color: "red",
       });

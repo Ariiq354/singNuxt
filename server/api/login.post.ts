@@ -18,14 +18,14 @@ export default defineEventHandler(async (event) => {
     return sendRedirect(event, "/"); // redirect to profile page
   } catch (e) {
     if (e instanceof LuciaError) {
-      throw createError({
+      return {
+        status: 400,
         statusMessage: "Incorrect username or password",
-        statusCode: 400,
-      });
+      };
     }
-    throw createError({
-      statusMessage: "An unknown production error occurred",
+    return {
+      statusMessage: "An unknown error occurred",
       statusCode: 500,
-    });
+    };
   }
 });
