@@ -31,6 +31,10 @@
       },
       redirect: "manual",
       server: true,
+      onResponseError({ response, error }) {
+        console.log(response);
+        console.log(error);
+      },
     });
 
     if (error.value) {
