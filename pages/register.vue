@@ -34,9 +34,10 @@
     });
 
     if (error.value) {
+      console.log(error.value);
       toast.add({
         title: "Error",
-        description: error.value.statusMessage,
+        description: error.value.message,
         icon: "i-heroicons-x-circle",
         color: "red",
       });
