@@ -23,7 +23,7 @@
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     loading.value = true;
-    const { data, error } = await useFetch("/api/signup", {
+    await $fetch("/api/signup", {
       method: "POST",
       body: {
         username: event.data.username,
@@ -31,38 +31,23 @@
       },
       redirect: "manual",
       server: true,
-      onResponseError({ response, error }) {
-        console.log(response);
-        console.log(error);
+      onResponseError({ response }) {
+        toast.add({
+          title: "Error",
+          description: response._data.statusMessage,
+          icon: "i-heroicons-x-circle",
+          color: "red",
+        });
+        loading.value = false;
       },
     });
 
-    if (error.value) {
-      console.log(error.value);
-      toast.add({
-        title: "Error",
-        description: error.value.message,
-        icon: "i-heroicons-x-circle",
-        color: "red",
-      });
-    }
-
-    // if (data.value?.status === 400 || data.value?.status === 500) {
-    //   toast.add({
-    //     title: "Error",
-    //     description: data.value.statusMessage,
-    //     icon: "i-heroicons-x-circle",
-    //     color: "red",
-    //   });
-    // } else {
-    //   toast.add({
-    //     title: "Success",
-    //     description: "User has been created",
-    //     icon: "i-heroicons-check-circle",
-    //   });
-    //   await navigateTo("/login");
-    // }
-
+    toast.add({
+      title: "Success",
+      description: "User has been created",
+      icon: "i-heroicons-check-circle",
+    });
+    await navigateTo("/login");
     loading.value = false;
   }
 </script>
