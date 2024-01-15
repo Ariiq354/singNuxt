@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+  definePageMeta({
+    layout: false,
+  });
+
   import { z } from "zod";
   import type { FormSubmitEvent } from "#ui/types";
 
@@ -19,34 +23,32 @@
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     loading.value = true;
-    await $fetch("/api/signup", {
+    const { error } = await useFetch("/api/signup", {
       method: "POST",
       body: {
         username: event.data.username,
         password: event.data.password,
       },
       redirect: "manual",
-    })
-      .then(async () => {
-        toast.add({
-          title: "Success",
-          description: "User has been created",
-          icon: "i-heroicons-check-circle",
-        });
+    });
 
-        await navigateTo("/login");
-      })
-      .catch((err) => {
-        toast.add({
-          title: "Error",
-          description: err.statusMessage,
-          icon: "i-heroicons-x-circle",
-          color: "red",
-        });
-      })
-      .finally(() => {
-        loading.value = false;
+    if (error.value) {
+      toast.add({
+        title: "Error",
+        description: error.value.statusMessage,
+        icon: "i-heroicons-x-circle",
+        color: "red",
       });
+    } else {
+      toast.add({
+        title: "Success",
+        description: "User has been created",
+        icon: "i-heroicons-check-circle",
+      });
+      await navigateTo("/login");
+    }
+
+    loading.value = false;
   }
 </script>
 

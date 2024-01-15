@@ -10,6 +10,7 @@ datasource db {
 model User {
   id           String    @id @unique
   username     String    @unique
+  role         Int       @default(0)
   auth_session Session[]
   key          Key[]
 }

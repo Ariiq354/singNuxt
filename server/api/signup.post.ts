@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
       },
       attributes: {
         username,
+        role: 0,
       },
     });
   } catch (error) {
