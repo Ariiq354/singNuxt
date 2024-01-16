@@ -16,10 +16,6 @@ export default defineEventHandler(async (event) => {
       statusCode: 400,
       statusMessage: "Username already exist",
     });
-    return {
-      status: 400,
-      statusMessage: "Username already exist",
-    };
   }
 
   try {
@@ -35,10 +31,11 @@ export default defineEventHandler(async (event) => {
       },
     });
   } catch (error) {
-    return {
-      status: 500,
-      statusMessage: "Unknown error occured",
-    };
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Unknown prodcution occured",
+      message: error as string,
+    });
   }
   return sendRedirect(event, "/login");
 });

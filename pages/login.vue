@@ -28,31 +28,30 @@
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
     loading.value = true;
-    const { error } = await useFetch("/api/login", {
+    await $fetch("/api/login", {
       method: "POST",
       body: {
         username: event.data.username,
         password: event.data.password,
       },
       redirect: "manual",
+      onResponseError({ response }) {
+        toast.add({
+          title: "Error",
+          description: response._data.statusMessage,
+          icon: "i-heroicons-x-circle",
+          color: "red",
+        });
+        loading.value = false;
+      },
     });
 
-    if (error.value) {
-      toast.add({
-        title: "Error",
-        description: error.value.statusMessage,
-        icon: "i-heroicons-x-circle",
-        color: "red",
-      });
-    } else {
-      toast.add({
-        title: "Success",
-        description: "Succesfully login",
-        icon: "i-heroicons-check-circle",
-      });
-
-      await navigateTo("/dashboard");
-    }
+    toast.add({
+      title: "Success",
+      description: "Succesfully login",
+      icon: "i-heroicons-check-circle",
+    });
+    await navigateTo("/dashboard");
     loading.value = false;
   }
 </script>
