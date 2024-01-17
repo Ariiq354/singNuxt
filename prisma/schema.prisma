@@ -8,11 +8,22 @@ datasource db {
 }
 
 model User {
-  id           String    @id @unique
-  username     String    @unique
-  role         Int       @default(0)
-  auth_session Session[]
-  key          Key[]
+  id                String    @id @unique
+  username          String    @unique
+  role              Int       @default(0) // (0) => Belum isi data, (1) => User, (2) => Admin
+  nama_lengkap      String    @default("")
+  nama_panggilan    String    @default("")
+  email             String    @default("")
+  no_telepon        String    @default("")
+  tempat_lahir      String    @default("")
+  tanggal_lahir     DateTime  @default(now())
+  gender            Int       @default(0) // (0) => Laki-laki, (1) => Perempuan
+  wayuh             Int       @default(0) // (0) => Tidak, (1) => Iya jika laki laki default 0
+  status_pernikahan Int       @default(0) // (0) => Belum Menikah, (1) => Kawin, (2) => Cerai Hidup, (3) => Cerai Mati
+  auth_session      Session[]
+  key               Key[]
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
 }
 
 model Session {

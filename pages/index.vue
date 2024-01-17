@@ -5,5 +5,12 @@
 </script>
 
 <template>
-  <main class="bg-eastern-blue-50 h-screen">hello world</main>
+  <main class="bg-eastern-blue-50">
+    <NuxtImg
+      src="/imageKeluarga.png"
+      width="3502"
+      height="2480"
+      class="w-full"
+    />
+  </main>
 </template>

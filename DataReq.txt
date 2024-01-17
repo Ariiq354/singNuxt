@@ -1,0 +1,52 @@
+Identitas Pribadi: 
+- Nama lengkap
+- Nama Panggilan
+- Email
+- no_telepon
+- Tempat Lahir
+- Tanggal lahir
+- Gender
+- Wayuh, kalo perempuan
+- Status Pernikahan
+
+Alamat: 
+- Provinsi
+- Kabupaten/kota
+- Kecamatan
+- Keluarahan/Desa
+- Alamat (Jalan dan nomor)
+- Status Tempat Tinggal (Pribadi, Dinas, Orang tua, Sewa)
+
+Note: Provinsi, Kabupaten, Kecamatan, Keluarahan otomatis listnya tergantung diatasnya diisi apa
+
+Informasi Kelompok:
+- Daerah
+- Desa
+- Kelompok
+- Dapukan
+- Nama Ayah
+
+Note: Sama kayak alamat, listnya terisi otomatis
+
+Informasi Tambahan:
+- Jumlah Saudara
+- Anak ke
+- Suku
+- Pendidikan Terakhir
+- Jurusan Pendidikan
+- Jurusan Pendidikan Lainnya
+- Pekerjaan
+- Pekerjaan Lainnya
+- Tinggi Badan
+- Berat Badan
+- Hobi
+- Ceritakan tentang diri anda
+
+Kriteria Pasangan:
+- Ceritakan Kriteria pasangan (textarea)
+
+Dokumen Pribadi:
+- Upload Foto
+
+Review and submit
+
