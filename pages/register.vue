@@ -28,10 +28,12 @@
         username: event.data.username,
         password: event.data.password,
       },
-    });
-
-    watch(pending, (newPending) => {
-      loading.value = newPending;
+      onRequest() {
+        loading.value = true;
+      },
+      onResponse() {
+        loading.value = false;
+      },
     });
 
     if (data.value?.statusCode !== 200) {

@@ -3,6 +3,7 @@
 
   const user = useUser();
   const toast = useToast();
+  const loading = ref(false);
 
   const identitas = useIdentitas();
   const alamat = useAlamat();
@@ -21,7 +22,14 @@
         dokumen: dokumen,
         userId: user.value?.id,
       },
+      onRequest() {
+        loading.value = true;
+      },
+      onResponse() {
+        loading.value = false;
+      },
     });
+
     if (data.value?.statusCode === 200) {
       toast.add({
         title: "Success",
@@ -100,7 +108,11 @@
   </div>
 
   <div class="flex justify-between">
-    <UButton @click="emit('previous')"> Previous Step </UButton>
-    <UButton type="button" @click="onSubmit"> Submit </UButton>
+    <UButton @click="emit('previous')" :loading="loading">
+      Previous Step
+    </UButton>
+    <UButton type="button" @click="onSubmit" :loading="loading">
+      Submit
+    </UButton>
   </div>
 </template>
