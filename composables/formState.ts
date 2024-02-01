@@ -36,7 +36,7 @@ export const useInformasi = () =>
 
 export const useDokumen = () =>
   useState("dokumen", () => ({
-    path_image: "",
+    path_image: "image",
   }));
 
 export const useKriteria = () =>
