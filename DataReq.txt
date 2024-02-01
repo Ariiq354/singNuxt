@@ -6,7 +6,6 @@ Identitas Pribadi:
 - Tempat Lahir
 - Tanggal lahir
 - Gender
-- Wayuh, kalo perempuan
 - Status Pernikahan
 
 Alamat: 

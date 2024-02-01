@@ -22,33 +22,33 @@
   });
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
-    loading.value = true;
-    await $fetch("/api/signup", {
+    const { data, pending } = await useFetch("/api/auth/signup", {
       method: "POST",
       body: {
         username: event.data.username,
         password: event.data.password,
       },
-      redirect: "manual",
-      server: true,
-      onResponseError({ response }) {
-        toast.add({
-          title: "Error",
-          description: response._data.statusMessage,
-          icon: "i-heroicons-x-circle",
-          color: "red",
-        });
-        loading.value = false;
-      },
     });
 
-    toast.add({
-      title: "Success",
-      description: "User has been created",
-      icon: "i-heroicons-check-circle",
+    watch(pending, (newPending) => {
+      loading.value = newPending;
     });
-    await navigateTo("/login");
-    loading.value = false;
+
+    if (data.value?.statusCode !== 200) {
+      toast.add({
+        title: "Error",
+        description: data.value?.statusMessage,
+        icon: "i-heroicons-x-circle",
+        color: "red",
+      });
+    } else {
+      toast.add({
+        title: "Success",
+        description: data.value.statusMessage,
+        icon: "i-heroicons-check-circle",
+      });
+      await navigateTo("/dashboard");
+    }
   }
 </script>
 

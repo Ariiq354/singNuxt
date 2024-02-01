@@ -1,21 +1,35 @@
-import { lucia } from "lucia";
-import { h3 } from "lucia/middleware";
-import { prisma } from "@lucia-auth/adapter-prisma";
+import { Lucia } from "lucia";
+import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
 import { PrismaClient } from "@prisma/client";
 
 const client = new PrismaClient();
 
-export const auth = lucia({
-  adapter: prisma(client),
-  env: process.dev ? "DEV" : "PROD", // "PROD" if deployed to HTTPS
-  middleware: h3(),
+const adapter = new PrismaAdapter(client.session, client.user);
 
-  getUserAttributes: (data) => {
+export const lucia = new Lucia(adapter, {
+  sessionCookie: {
+    attributes: {
+      secure: !import.meta.dev,
+    },
+  },
+  getUserAttributes: (attributes) => {
     return {
-      username: data.username,
-      role: data.role,
+      username: attributes.username,
+      role: attributes.role,
+      status: attributes.status,
     };
   },
 });
 
-export type Auth = typeof auth;
+declare module "lucia" {
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
+}
+
+interface DatabaseUserAttributes {
+  username: string;
+  role: number;
+  status: number;
+}

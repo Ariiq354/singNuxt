@@ -8,7 +8,7 @@
 
   const user = useUser();
   if (user.value) {
-    await navigateTo("/dashboard"); // redirect to profile page
+    await navigateTo("/dashboard");
   }
 
   const toast = useToast();
@@ -27,32 +27,33 @@
   });
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
-    loading.value = true;
-    await $fetch("/api/login", {
+    const { data, pending } = await useFetch("/api/auth/login", {
       method: "POST",
       body: {
         username: event.data.username,
         password: event.data.password,
       },
-      redirect: "manual",
-      onResponseError({ response }) {
-        toast.add({
-          title: "Error",
-          description: response._data.statusMessage,
-          icon: "i-heroicons-x-circle",
-          color: "red",
-        });
-        loading.value = false;
-      },
     });
 
-    toast.add({
-      title: "Success",
-      description: "Succesfully login",
-      icon: "i-heroicons-check-circle",
+    watch(pending, (newPending) => {
+      loading.value = newPending;
     });
-    await navigateTo("/dashboard");
-    loading.value = false;
+
+    if (data.value?.statusCode !== 200) {
+      toast.add({
+        title: "Error",
+        description: data.value?.statusMessage,
+        icon: "i-heroicons-x-circle",
+        color: "red",
+      });
+    } else {
+      toast.add({
+        title: "Success",
+        description: data.value.statusMessage,
+        icon: "i-heroicons-check-circle",
+      });
+      await navigateTo("/dashboard");
+    }
   }
 </script>
 

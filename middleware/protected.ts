@@ -1,4 +1,7 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const user = useUser();
-  if (!user.value) return navigateTo("/login");
+  // if (process.server) return;
+  const { data } = await useFetch("/api/auth/validate");
+  if (!data.value) {
+    return navigateTo("/login");
+  }
 });

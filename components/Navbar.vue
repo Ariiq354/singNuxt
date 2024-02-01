@@ -59,9 +59,9 @@
       <div class="h-full flex flex-col gap-4">
         <NuxtLink to="/" @click="isOpen = false">Beranda</NuxtLink>
         <NuxtLink to="/layanan" @click="isOpen = false">Layanan</NuxtLink>
-        <NuxtLink to="/tentangkami" @click="isOpen = false"
-          >Tentang Kami</NuxtLink
-        >
+        <NuxtLink to="/tentangkami" @click="isOpen = false">
+          Tentang Kami
+        </NuxtLink>
         <NuxtLink to="/kontak" @click="isOpen = false">Kontak</NuxtLink>
       </div>
     </UCard>

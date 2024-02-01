@@ -3,44 +3,57 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id                String    @id @unique
-  username          String    @unique
-  role              Int       @default(0) // (0) => Belum isi data, (1) => User, (2) => Admin
-  nama_lengkap      String    @default("")
-  nama_panggilan    String    @default("")
-  email             String    @default("")
-  no_telepon        String    @default("")
-  tempat_lahir      String    @default("")
-  tanggal_lahir     DateTime  @default(now())
-  gender            Int       @default(0) // (0) => Laki-laki, (1) => Perempuan
-  wayuh             Int       @default(0) // (0) => Tidak, (1) => Iya jika laki laki default 0
-  status_pernikahan Int       @default(0) // (0) => Belum Menikah, (1) => Kawin, (2) => Cerai Hidup, (3) => Cerai Mati
-  auth_session      Session[]
-  key               Key[]
-  created_at        DateTime  @default(now())
-  updated_at        DateTime  @updatedAt
+  id              String    @id
+  username        String    @unique
+  hashed_password String
+  role            Int // 0 => User, 1=> admin
+  status          Int // 0 => belum daftar, 1 => belum approve, 2 => sudah approve
+  sessions        Session[]
+  User_Dtl        User_Dtl?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
 }
 
 model Session {
-  id             String @id @unique
-  user_id        String
-  active_expires BigInt
-  idle_expires   BigInt
-  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
-
-  @@index([user_id])
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
-model Key {
-  id              String  @id @unique
-  hashed_password String?
-  user_id         String
-  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
-
-  @@index([user_id])
+model User_Dtl {
+  id                    String   @id @unique @default(uuid())
+  userId                String   @unique
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nama_lengkap          String
+  nama_panggilan        String
+  email                 String
+  no_telepon            String
+  tempat_lahir          String
+  tanggal_lahir         DateTime
+  gender                Int
+  status_pernikahan     Int
+  provinsi              String
+  kabupaten_kota        String
+  kecamatan             String
+  kelurahan_desa        String
+  alamat                String
+  status_tempat_tinggal Int
+  jumlah_saudara        Int
+  anak_ke               Int
+  suku                  String
+  pendidikan_terakhir   String
+  jurusan_pendidikan    String
+  pekerjaan             String
+  tinggi                Int
+  berat                 Int
+  hobi                  String
+  cerita                String
+  kriteria              String
+  path_image            String
 }
