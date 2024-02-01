@@ -4,22 +4,24 @@
   });
 
   const user = useUser();
+  const data = ref();
   if (user.value?.status === 0) {
     await navigateTo("/dashboard/pendaftaran");
+  } else {
+    const { data: res } = await useFetch("/api/form/getUser", {
+      method: "POST",
+      body: {
+        userId: user.value?.id,
+      },
+    });
+    data.value = res.value;
   }
-
-  const { data } = await useFetch("/api/form/getUser", {
-    method: "POST",
-    body: {
-      userId: user.value?.id,
-    },
-  });
 </script>
 
 <template>
   <UContainer class="mt-4">
     <UCard>
-      <div class="w-full flex gap-4">
+      <div v-if="data" class="w-full flex gap-4">
         <div class="flex-1">
           <NuxtImg
             class="object-cover max-w-48 max-h-48"

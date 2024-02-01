@@ -8,7 +8,11 @@
 
   const user = useUser();
   if (user.value) {
-    await navigateTo("/dashboard");
+    if (user.value.status === 0) {
+      await navigateTo("/dashboard/pendaftaran");
+    } else {
+      await navigateTo("/dashboard");
+    }
   }
 
   const toast = useToast();
