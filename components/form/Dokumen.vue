@@ -2,22 +2,12 @@
   import type { FormSubmitEvent } from "#ui/types";
 
   const emit = defineEmits(["next", "previous"]);
-  const props = defineProps<{
-    initialdata: dokumenSchema | null;
-  }>();
 
   const dokumen = useDokumen();
 
-  const { value: state } = computed(() =>
-    props.initialdata
-      ? ref(props.initialdata)
-      : ref({
-          path_image: undefined,
-        })
-  );
+  const state = dokumen.value;
 
-  async function onSubmit(event: FormSubmitEvent<dokumenSchema>) {
-    dokumen.value.path_image = event.data.path_image;
+  async function onSubmit(event: FormSubmitEvent<dokumenZ>) {
     emit("next");
   }
 </script>
@@ -25,7 +15,7 @@
 <template>
   <div class="w-full h-full">
     <UForm
-      :schema="dokumenSchemaZod"
+      :schema="dokumenSchema"
       :state="state"
       class="space-y-8"
       @submit="onSubmit"

@@ -15,11 +15,11 @@
     const { data, pending } = await useFetch("/api/form/userDtl", {
       method: "POST",
       body: {
-        identitas: identitas,
-        alamat: alamat,
-        informasi: informasi,
-        kriteria: kriteria,
-        dokumen: dokumen,
+        identitas: identitas.value,
+        alamat: alamat.value,
+        informasi: informasi.value,
+        kriteria: kriteria.value,
+        dokumen: dokumen.value,
         userId: user.value?.id,
       },
       onRequest() {

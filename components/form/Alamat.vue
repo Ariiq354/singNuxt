@@ -2,9 +2,6 @@
   import type { FormSubmitEvent } from "#ui/types";
 
   const emit = defineEmits(["previous", "next"]);
-  const props = defineProps<{
-    initialdata: alamatSchema | null;
-  }>();
 
   const alamat = useAlamat();
   const { data: provinsi } = await useFetch("/api/wilayah/provinsi");
@@ -34,32 +31,15 @@
     { label: "Sewa", value: 4 },
   ];
 
-  if (props.initialdata) {
-    getKota(props.initialdata.provinsi);
-    getKecamatan(props.initialdata.kabupaten_kota);
-    getDesa(props.initialdata.kecamatan);
+  if (alamat.value.provinsi) {
+    getKota(alamat.value.provinsi);
+    getKecamatan(alamat.value.kabupaten_kota);
+    getDesa(alamat.value.kecamatan);
   }
 
-  const { value: state } = computed(() =>
-    props.initialdata
-      ? ref(props.initialdata)
-      : ref({
-          provinsi: undefined,
-          kabupaten_kota: undefined,
-          kecamatan: undefined,
-          kelurahan_desa: undefined,
-          alamat: undefined,
-          status_tempat_tinggal: undefined,
-        })
-  );
+  const state = alamat.value;
 
-  async function onSubmit(event: FormSubmitEvent<alamatSchema>) {
-    alamat.value.provinsi = event.data.provinsi;
-    alamat.value.kabupaten_kota = event.data.kabupaten_kota;
-    alamat.value.kecamatan = event.data.kecamatan;
-    alamat.value.kelurahan_desa = event.data.kelurahan_desa;
-    alamat.value.alamat = event.data.alamat;
-    alamat.value.status_tempat_tinggal = event.data.status_tempat_tinggal;
+  async function onSubmit(event: FormSubmitEvent<alamatZ>) {
     emit("next");
   }
 </script>
@@ -67,7 +47,7 @@
 <template>
   <div class="w-full h-full">
     <UForm
-      :schema="alamatSchemaZod"
+      :schema="alamatSchema"
       :state="state"
       class="space-y-8"
       @submit="onSubmit"

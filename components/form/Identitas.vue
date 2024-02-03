@@ -1,8 +1,5 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from "#ui/types";
-  const props = defineProps<{
-    initialdata: identitasSchema | null;
-  }>();
 
   const emit = defineEmits(["next"]);
   const identitas = useIdentitas();
@@ -19,39 +16,9 @@
     { label: "Cerai mati", value: 4 },
   ];
 
-  const { value: state } = computed(() =>
-    props.initialdata
-      ? ref({
-          nama_lengkap: props.initialdata.nama_lengkap,
-          nama_panggilan: props.initialdata.nama_panggilan,
-          email: props.initialdata.email,
-          no_telepon: props.initialdata.no_telepon,
-          tempat_lahir: props.initialdata.tempat_lahir,
-          tanggal_lahir: props.initialdata.tanggal_lahir,
-          gender: props.initialdata.gender,
-          status_pernikahan: props.initialdata.status_pernikahan,
-        })
-      : ref({
-          nama_lengkap: undefined,
-          nama_panggilan: undefined,
-          email: undefined,
-          no_telepon: undefined,
-          tempat_lahir: undefined,
-          tanggal_lahir: undefined,
-          gender: undefined,
-          status_pernikahan: undefined,
-        })
-  );
+  const state = identitas.value;
 
-  async function onSubmit(event: FormSubmitEvent<identitasSchema>) {
-    identitas.value.nama_lengkap = event.data.nama_lengkap;
-    identitas.value.nama_panggilan = event.data.nama_panggilan;
-    identitas.value.email = event.data.email;
-    identitas.value.no_telepon = event.data.no_telepon;
-    identitas.value.tempat_lahir = event.data.tempat_lahir;
-    identitas.value.tanggal_lahir = new Date(event.data.tanggal_lahir);
-    identitas.value.gender = event.data.gender;
-    identitas.value.status_pernikahan = event.data.status_pernikahan;
+  async function onSubmit(event: FormSubmitEvent<identitasZ>) {
     emit("next");
   }
 </script>
@@ -59,7 +26,7 @@
 <template>
   <div class="w-full h-full">
     <UForm
-      :schema="identitasSchemaZod"
+      :schema="identitasSchema"
       :state="state"
       class="space-y-8"
       @submit="onSubmit"

@@ -22,7 +22,7 @@
   });
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const { data, pending } = await useFetch("/api/auth/signup", {
+    const { data } = await useFetch("/api/auth/signup", {
       method: "POST",
       body: {
         username: event.data.username,

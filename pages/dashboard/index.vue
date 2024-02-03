@@ -4,24 +4,23 @@
   });
 
   const user = useUser();
-  const data = ref();
+  const router = useRouter();
   if (user.value?.status === 0) {
-    await navigateTo("/dashboard/pendaftaran");
-  } else {
-    const { data: res } = await useFetch("/api/form/getUser", {
-      method: "POST",
-      body: {
-        userId: user.value?.id,
-      },
-    });
-    data.value = res.value;
+    router.push("/dashboard/pendaftaran");
   }
+
+  const { data: res } = await useFetch("/api/form/getUser", {
+    method: "POST",
+    body: {
+      userId: user.value?.id,
+    },
+  });
 </script>
 
 <template>
   <UContainer class="mt-4">
     <UCard>
-      <div v-if="data" class="w-full flex gap-4">
+      <!-- <div v-if="data" class="w-full flex gap-4">
         <div class="flex-1">
           <NuxtImg
             class="object-cover max-w-48 max-h-48"
@@ -84,7 +83,8 @@
             <span class="font-semibold">Kriteria:</span> {{ data.kriteria }}
           </p>
         </div>
-      </div>
+      </div> -->
+      <div>index</div>
     </UCard>
   </UContainer>
 </template>

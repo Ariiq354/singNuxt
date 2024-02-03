@@ -1,20 +1,13 @@
 <script lang="ts" setup>
   definePageMeta({
     layout: false,
+    middleware: "guest",
   });
 
   import { z } from "zod";
   import type { FormSubmitEvent } from "#ui/types";
 
-  const user = useUser();
-  if (user.value) {
-    if (user.value.status === 0) {
-      await navigateTo("/dashboard/pendaftaran");
-    } else {
-      await navigateTo("/dashboard");
-    }
-  }
-
+  const router = useRouter();
   const toast = useToast();
   const loading = ref(false);
 
@@ -31,7 +24,7 @@
   });
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const { data, pending } = await useFetch("/api/auth/login", {
+    const { data } = await useFetch("/api/auth/login", {
       method: "POST",
       body: {
         username: event.data.username,

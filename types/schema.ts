@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-export const identitasSchemaZod = z.object({
+type optionalType<T> = {
+  [K in keyof T]: T[K] | undefined;
+};
+
+export const identitasSchema = z.object({
   nama_lengkap: z.string(),
   nama_panggilan: z.string(),
   email: z.string(),
@@ -10,9 +14,11 @@ export const identitasSchemaZod = z.object({
   gender: z.number(),
   status_pernikahan: z.number(),
 });
-export type identitasSchema = z.output<typeof identitasSchemaZod>;
 
-export const alamatSchemaZod = z.object({
+export type identitasZ = z.output<typeof identitasSchema>;
+export type identitasT = optionalType<identitasZ>;
+
+export const alamatSchema = z.object({
   provinsi: z.string(),
   kabupaten_kota: z.string(),
   kecamatan: z.string(),
@@ -20,9 +26,11 @@ export const alamatSchemaZod = z.object({
   alamat: z.string(),
   status_tempat_tinggal: z.number(),
 });
-export type alamatSchema = z.output<typeof alamatSchemaZod>;
 
-export const informasiSchemaZod = z.object({
+export type alamatZ = z.output<typeof alamatSchema>;
+export type alamatT = optionalType<alamatZ>;
+
+export const informasiSchema = z.object({
   jumlah_saudara: z.number(),
   anak_ke: z.number(),
   suku: z.string(),
@@ -34,14 +42,20 @@ export const informasiSchemaZod = z.object({
   hobi: z.string(),
   cerita: z.string(),
 });
-export type informasiSchema = z.output<typeof informasiSchemaZod>;
 
-export const kriteriaSchemaZod = z.object({
+export type informasiZ = z.output<typeof informasiSchema>;
+export type informasiT = optionalType<informasiZ>;
+
+export const kriteriaSchema = z.object({
   kriteria: z.string(),
 });
-export type kriteriaSchema = z.output<typeof kriteriaSchemaZod>;
 
-export const dokumenSchemaZod = z.object({
+export type kriteriaZ = z.output<typeof kriteriaSchema>;
+export type kriteriaT = optionalType<kriteriaZ>;
+
+export const dokumenSchema = z.object({
   path_image: z.string(),
 });
-export type dokumenSchema = z.output<typeof dokumenSchemaZod>;
+
+export type dokumenZ = z.output<typeof dokumenSchema>;
+export type dokumenT = optionalType<dokumenZ>;

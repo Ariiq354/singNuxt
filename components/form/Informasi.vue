@@ -2,40 +2,11 @@
   import type { FormSubmitEvent } from "#ui/types";
 
   const emit = defineEmits(["previous", "next"]);
-  const props = defineProps<{
-    initialdata: informasiSchema | null;
-  }>();
-
   const informasi = useInformasi();
 
-  const { value: state } = computed(() =>
-    props.initialdata
-      ? ref(props.initialdata)
-      : ref({
-          jumlah_saudara: undefined,
-          anak_ke: undefined,
-          suku: undefined,
-          pendidikan_terakhir: undefined,
-          jurusan_pendidikan: undefined,
-          pekerjaan: undefined,
-          tinggi: undefined,
-          berat: undefined,
-          hobi: undefined,
-          cerita: undefined,
-        })
-  );
+  const state = informasi.value;
 
-  async function onSubmit(event: FormSubmitEvent<informasiSchema>) {
-    informasi.value.jumlah_saudara = event.data.jumlah_saudara;
-    informasi.value.anak_ke = event.data.anak_ke;
-    informasi.value.suku = event.data.suku;
-    informasi.value.pendidikan_terakhir = event.data.pendidikan_terakhir;
-    informasi.value.jurusan_pendidikan = event.data.jurusan_pendidikan;
-    informasi.value.pekerjaan = event.data.pekerjaan;
-    informasi.value.tinggi = event.data.tinggi;
-    informasi.value.berat = event.data.berat;
-    informasi.value.hobi = event.data.hobi;
-    informasi.value.cerita = event.data.cerita;
+  async function onSubmit(event: FormSubmitEvent<informasiZ>) {
     emit("next");
   }
 </script>
@@ -43,7 +14,7 @@
 <template>
   <div class="w-full h-full">
     <UForm
-      :schema="informasiSchemaZod"
+      :schema="informasiSchema"
       :state="state"
       class="space-y-8"
       @submit="onSubmit"

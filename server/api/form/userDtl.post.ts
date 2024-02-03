@@ -1,21 +1,20 @@
-import { date } from "zod";
 import {
-  alamatSchema,
-  dokumenSchema,
-  identitasSchema,
-  informasiSchema,
-  kriteriaSchema,
+  alamatZ,
+  dokumenZ,
+  identitasZ,
+  informasiZ,
+  kriteriaZ,
 } from "~/types/schema";
 import { prismadb } from "~/utils";
 
 export default defineEventHandler(async (event) => {
   const { alamat, dokumen, identitas, informasi, kriteria, userId } =
     await readBody<{
-      identitas: identitasSchema;
-      alamat: alamatSchema;
-      informasi: informasiSchema;
-      kriteria: kriteriaSchema;
-      dokumen: dokumenSchema;
+      identitas: identitasZ;
+      alamat: alamatZ;
+      informasi: informasiZ;
+      kriteria: kriteriaZ;
+      dokumen: dokumenZ;
       userId: string;
     }>(event);
 
@@ -25,25 +24,24 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const compositeUserDtl = {
+    ...identitas,
+    tanggal_lahir: new Date(identitas.tanggal_lahir),
+    ...alamat,
+    ...informasi,
+    ...kriteria,
+    ...dokumen,
+  };
+
   const res = await prismadb.user_Dtl.upsert({
     where: {
       userId: userId,
     },
 
-    update: {
-      ...identitas,
-      ...alamat,
-      ...informasi,
-      ...kriteria,
-      ...dokumen,
-    },
+    update: compositeUserDtl,
 
     create: {
-      ...identitas,
-      ...alamat,
-      ...dokumen,
-      ...informasi,
-      ...kriteria,
+      ...compositeUserDtl,
       user: {
         connect: {
           id: userId,
