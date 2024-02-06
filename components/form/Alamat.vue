@@ -3,7 +3,13 @@
 
   const emit = defineEmits(["previous", "next"]);
 
+  function getNameByCode(data: any, code: string) {
+    const result: any = data.find((item: any) => item.code === code);
+    return result.name;
+  }
+
   const alamat = useAlamat();
+  const wilayah = useWilayah();
   const { data: provinsi } = await useFetch("/api/wilayah/provinsi");
   const kota = ref();
   const kecamatan = ref();
@@ -40,6 +46,13 @@
   const state = alamat.value;
 
   async function onSubmit(event: FormSubmitEvent<alamatZ>) {
+    wilayah.value.provinsi = getNameByCode(provinsi.value, event.data.provinsi);
+    wilayah.value.kota = getNameByCode(kota.value, event.data.kabupaten_kota);
+    wilayah.value.kecamatan = getNameByCode(
+      kecamatan.value,
+      event.data.kecamatan
+    );
+    wilayah.value.desa = getNameByCode(desa.value, event.data.kelurahan_desa);
     emit("next");
   }
 </script>

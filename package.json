@@ -20,7 +20,6 @@
     "@lucia-auth/adapter-prisma": "^4.0.0",
     "@nuxtjs/cloudinary": "^2.5.2",
     "@prisma/client": "^5.9.1",
-    "idn-area-data": "^3.1.0",
     "lucia": "^3.0.1",
     "oslo": "^1.0.4",
     "prisma": "^5.9.1",

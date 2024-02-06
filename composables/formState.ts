@@ -58,3 +58,11 @@ export const useKriteria = () =>
       kriteria: undefined,
     })
   );
+
+export const useWilayah = () =>
+  useState("wilayah", () => ({
+    provinsi: "",
+    kota: "",
+    kecamatan: "",
+    desa: "",
+  }));

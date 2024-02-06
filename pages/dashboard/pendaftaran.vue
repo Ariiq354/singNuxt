@@ -23,7 +23,6 @@
     informasi.value = data.value.informasi;
     dokumen.value = data.value.dokumen;
     kriteria.value = data.value.kriteria;
-    doneState.value = 6;
   }
 
   function nextPage() {

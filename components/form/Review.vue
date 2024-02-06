@@ -10,6 +10,7 @@
   const informasi = useInformasi();
   const dokumen = useDokumen();
   const kriteria = useKriteria();
+  const wilayah = useWilayah();
 
   async function onSubmit() {
     const { data, pending } = await useFetch("/api/form/userDtl", {
@@ -72,10 +73,10 @@
     </div>
     <div class="flex-1">
       <h1 class="font-semibold">Alamat</h1>
-      <p>Provinsi: {{ alamat.provinsi }}</p>
-      <p>Kabupate/Kota: {{ alamat.kabupaten_kota }}</p>
-      <p>Kecamatan: {{ alamat.kecamatan }}</p>
-      <p>Kelurahan/Desa: {{ alamat.kelurahan_desa }}</p>
+      <p>Provinsi: {{ wilayah.provinsi }}</p>
+      <p>Kabupate/Kota: {{ wilayah.kota }}</p>
+      <p>Kecamatan: {{ wilayah.kecamatan }}</p>
+      <p>Kelurahan/Desa: {{ wilayah.desa }}</p>
       <p>Alamat: {{ alamat.alamat }}</p>
       <p>
         Status Tempat Tinggal:

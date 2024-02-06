@@ -1,8 +1,13 @@
-import { getVillages } from "idn-area-data";
+type desa = {
+  code: string;
+  districtCode: string;
+  name: string;
+};
 
 export default defineEventHandler(async (event) => {
   const kecamatanId = getRouterParam(event, "kecamatanId");
-  const res = await getVillages();
-  const data = res.filter((item) => item.district_code === kecamatanId);
-  return data;
+  const data: any = await $fetch(
+    `https://idn-area.up.railway.app/villages?districtCode=${kecamatanId}&limit=100`
+  );
+  return data.data as desa[];
 });

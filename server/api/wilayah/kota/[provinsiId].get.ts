@@ -1,8 +1,13 @@
-import { getRegencies } from "idn-area-data";
+type kota = {
+  code: string;
+  name: string;
+  provinceCode: string;
+};
 
 export default defineEventHandler(async (event) => {
   const provinsiId = getRouterParam(event, "provinsiId");
-  const res = await getRegencies();
-  const data = res.filter((item) => item.province_code === provinsiId);
-  return data;
+  const data: any = await $fetch(
+    `https://idn-area.up.railway.app/regencies?provinceCode=${provinsiId}&limit=100`
+  );
+  return data.data as kota[];
 });

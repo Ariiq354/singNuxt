@@ -1,11 +1,11 @@
-import { getProvinces } from "idn-area-data";
-
 type provinsi = {
   code: string;
   name: string;
 };
 
 export default defineEventHandler(async () => {
-  const data: provinsi[] = await getProvinces();
-  return data;
+  const data: any = await $fetch(
+    "https://idn-area.up.railway.app/provinces?limit=100"
+  );
+  return data.data as provinsi[];
 });

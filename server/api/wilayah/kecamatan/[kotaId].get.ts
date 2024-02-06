@@ -1,8 +1,13 @@
-import { getDistricts } from "idn-area-data";
+type kecamatan = {
+  code: string;
+  name: string;
+  regencyCode: string;
+};
 
 export default defineEventHandler(async (event) => {
   const kotaId = getRouterParam(event, "kotaId");
-  const res = await getDistricts();
-  const data = res.filter((item) => item.regency_code === kotaId);
-  return data;
+  const data: any = await $fetch(
+    `https://idn-area.up.railway.app/districts?regencyCode=${kotaId}&limit=100`
+  );
+  return data.data as kecamatan[];
 });
